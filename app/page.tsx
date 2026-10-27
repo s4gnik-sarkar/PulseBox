@@ -1,24 +1,33 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { PersonaRoller } from "@/components/persona-roller";
-import { Doodle, Drip } from "@/components/doodles";
+import { Drip } from "@/components/doodles";
+import { FloatingHeroIcons, SparkleStar, TopSwirlDoodle } from "@/components/floating-icons";
+import { FeaturesAndSteps } from "@/components/features-and-steps";
 
-const ticker = ["NO REAL NAMES", "SPILL THE CHAI ☕", "ANON & LOUD", "RATE THE FEST ⭐", "NO CAP FEEDBACK", "MAIN CHARACTER ENERGY"];
-
-const steps = [
-  ["01", "Roll a persona", "Dice decide your avatar and nickname."],
-  ["02", "Drop your take", "Pick a mood, add stars, say it."],
-  ["03", "Join the chaos", "Reply, react, recover with your PulsePass."],
+const ticker = [
+  "100% ANON CHARACTER ENERGY",
+  "NO REAL NAMES",
+  "SPILL THE CHAI ☕",
+  "ANON & LOUD",
+  "RATE THE FEST ⭐",
 ];
 
 export default function Home() {
   return (
     <div className="overflow-x-hidden">
       {/* HERO */}
-      <section className="relative isolate overflow-hidden bg-void pb-28 text-white">
+      <section className="relative isolate overflow-hidden bg-void pb-28 text-white min-h-[660px] lg:min-h-[720px]">
         <div aria-hidden className="swirl absolute -inset-[15%] -z-10" />
-        <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
-          <Link href="/" className="font-marker text-3xl outlined -rotate-2">pulsebox</Link>
+
+        {/* Floating Icons exactly as shown in the reference image (with rich mouse hover interactivity) */}
+        <FloatingHeroIcons />
+
+        <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 sm:px-12 lg:px-20 xl:px-24 py-5">
+          <Link href="/" className="font-marker text-3xl outlined -rotate-2 flex items-center gap-2 group">
+            <span>pulsebox</span>
+            <SparkleStar className="size-6 text-white transition-transform duration-300 group-hover:rotate-45 group-hover:scale-125" />
+          </Link>
           <nav className="flex items-center gap-3">
             <Link href="/organizer" className="sticker press hidden rounded-full bg-cream px-5 py-2.5 text-sm font-bold text-void sm:block">
               For hosts
@@ -27,8 +36,13 @@ export default function Home() {
           </nav>
         </header>
 
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 pt-8 lg:grid-cols-[1.2fr_1fr]">
-          <div>
+        <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 sm:px-12 lg:px-20 xl:px-24 pt-6 lg:pt-8 lg:grid-cols-[1.2fr_1fr]">
+          <div className="relative">
+            {/* White loop flourish doodle above "CATCH THE REAL" */}
+            <div className="absolute -top-7 left-2 sm:left-4 z-10 pointer-events-none">
+              <TopSwirlDoodle className="w-14 sm:w-16 h-8 sm:h-10 text-white/95 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]" />
+            </div>
+
             <h1 className="font-marker uppercase leading-[0.95] outlined">
               <span className="block -rotate-2 text-3xl sm:text-4xl">Catch the real</span>
               <span className="block rotate-1 text-6xl sm:text-8xl">feedback</span>
@@ -63,40 +77,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* FEATURE BLOCKS */}
-      <section className="mx-auto max-w-6xl px-5 py-24">
-        <h2 className="text-center font-marker text-4xl uppercase sm:text-6xl">Why it slaps</h2>
-        <div className="mt-14 grid gap-8 md:grid-cols-3">
-          <div className="sticker press -rotate-2 rounded-3xl bg-flame p-6 text-white">
-            <p className="text-2xl font-light uppercase leading-tight">You&apos;ve got a chai! ☕</p>
-            <p className="mt-3 text-sm">Cosmic Chai reacted to your feedback. Send gifts instead of boring likes.</p>
-          </div>
-          <div className="sticker press rotate-1 rounded-3xl bg-volt p-6 pt-4 text-white">
-            <Doodle kind={1} className="mx-auto size-28" />
-            <p className="font-marker text-3xl uppercase">King of the wall</p>
-            <p className="mt-2 text-sm">The most loved feedback of every event sits on top.</p>
-          </div>
-          <div className="sticker press -rotate-1 rounded-3xl bg-hot p-6 pt-4 text-void">
-            <Doodle kind={2} className="mx-auto size-28" />
-            <p className="font-marker text-3xl uppercase">Leave it to fate</p>
-            <p className="mt-2 text-sm font-medium">Roll your persona. Lose it? Recover it with your PulsePass.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* STEPS */}
-      <section className="mx-auto max-w-5xl px-5 pb-24">
-        <h2 className="text-center font-marker text-4xl uppercase sm:text-6xl">3 steps. zero cringe.</h2>
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {steps.map(([n, t, d]) => (
-            <div key={n} className="sticker rounded-3xl bg-card p-6">
-              <span className="font-marker text-6xl text-hot">{n}</span>
-              <h3 className="mt-2 text-xl font-extrabold">{t}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{d}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* WHY IT SLAPS & 3 STEPS. ZERO CRINGE. (SUBTLE GRID BG + THEME BASED DARK/LIGHT) */}
+      <FeaturesAndSteps />
 
       {/* CTA */}
       <section className="checker relative px-5 pb-28 pt-24 text-center">

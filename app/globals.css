@@ -3,8 +3,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-outfit);
-  --font-marker: var(--font-marker);
+  --font-sans: var(--font-fredoka), sans-serif;
+  --font-marker: var(--font-gochi), cursive;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -20,6 +20,10 @@
   --animate-spin-dice: spin-dice 0.6s ease-out;
   @keyframes marquee { to { transform: translateX(-50%); } }
   @keyframes spin-dice { from { transform: rotate(0); } to { transform: rotate(540deg) scale(1.1); } }
+  @keyframes float-bob {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+  }
 }
 
 :root {
