@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 
 // Web Audio synthesizer for cute tactile pop sounds on hover/click
 function playPopSound(freq = 520) {
@@ -360,9 +360,9 @@ export function InteractiveFloatingBadge({
             willChange: "transform",
           }}
         >
-          {/* Badge Circle with Neobrutalist border & shadow */}
+          {/* Responsive Badge Circle with Neobrutalist border & shadow */}
           <div
-            className={`flex items-center justify-center rounded-full border-[3.5px] border-[#0b0810] size-14 sm:size-16 md:size-18 lg:size-20 xl:size-[84px] p-2 sm:p-2.5 transition-shadow duration-150 ${
+            className={`flex items-center justify-center rounded-full border-[3px] lg:border-[3.5px] border-[#0b0810] size-14 md:size-16 lg:size-20 xl:size-[84px] p-2 lg:p-2.5 transition-shadow duration-150 ${
               hovered ? "shadow-[7px_7px_0_#0b0810]" : "shadow-[4px_4px_0_#0b0810]"
             }`}
             style={{
@@ -384,7 +384,7 @@ export function InteractiveFloatingBadge({
                 : "opacity-0 scale-75 pointer-events-none"
             }`}
           >
-            <div className="flex items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-[#0b0810] bg-[#f6e7c8] px-3 py-1 font-bold text-xs uppercase tracking-wider text-[#0b0810] shadow-[3px_3px_0_#0b0810]">
+            <div className="flex items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-[#0b0810] bg-[#f6e7c8] px-3 py-1 font-bold text-[11px] sm:text-xs uppercase tracking-wider text-[#0b0810] shadow-[3px_3px_0_#0b0810]">
               <span>{tooltipText}</span>
               <span className="text-[10px]">✨</span>
             </div>
@@ -412,11 +412,12 @@ export function InteractiveFloatingBadge({
 
 /* =========================================================================
    HERO FLOATING ICONS OVERLAY (9 ICONS + SPARKLES + DOODLES)
+   Responsive: hidden on mobile (< md), visible & scaled on md, lg, xl
    ========================================================================= */
 
 export function FloatingHeroIcons() {
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-visible">
+    <div className="hidden md:block absolute inset-0 pointer-events-none overflow-visible">
       {/* ================= LEFT COLUMN ================= */}
 
       {/* 1. Left Top: Crowd Discussion (Cream / Yellow) */}
@@ -424,7 +425,7 @@ export function FloatingHeroIcons() {
         id="left-crowd"
         side="left"
         topPercent={14}
-        offsetClass="left-2 sm:left-4 lg:left-5 xl:left-8"
+        offsetClass="left-2 md:left-3 lg:left-5 xl:left-8"
         bgColor="#fef08a" // Pastel cream yellow
         tooltipText="Crowd Talk"
         initialRotate={-4}
@@ -436,7 +437,7 @@ export function FloatingHeroIcons() {
 
       {/* White sparkle next to Left Top Crowd Icon */}
       <div
-        className="absolute top-[17%] left-[17%] sm:left-[12%] lg:left-[8.5%] xl:left-[11%] z-10 pointer-events-none animate-pulse"
+        className="absolute top-[17%] left-[10%] md:left-[8%] lg:left-[8.5%] xl:left-[11%] z-10 pointer-events-none animate-pulse"
         style={{ animationDuration: "3s" }}
       >
         <SparkleStar className="size-5 sm:size-6 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
@@ -447,7 +448,7 @@ export function FloatingHeroIcons() {
         id="left-thumbs"
         side="left"
         topPercent={33}
-        offsetClass="left-1 sm:left-3 lg:left-4 xl:left-6"
+        offsetClass="left-1 md:left-2 lg:left-4 xl:left-6"
         bgColor="#7dd3fc" // Pastel sky blue
         tooltipText="100% Slaps!"
         initialRotate={3}
@@ -462,7 +463,7 @@ export function FloatingHeroIcons() {
         id="left-heart"
         side="left"
         topPercent={52}
-        offsetClass="left-2 sm:left-4 lg:left-5 xl:left-8"
+        offsetClass="left-2 md:left-3 lg:left-5 xl:left-8"
         bgColor="#f472b6" // Candy pink
         tooltipText="Much Love"
         initialRotate={-3}
@@ -477,7 +478,7 @@ export function FloatingHeroIcons() {
         id="left-chat"
         side="left"
         topPercent={71}
-        offsetClass="left-3 sm:left-5 lg:left-6 xl:left-9"
+        offsetClass="left-2 md:left-4 lg:left-6 xl:left-9"
         bgColor="#86efac" // Pastel mint green
         tooltipText="Spill the Chai"
         initialRotate={4}
@@ -489,7 +490,7 @@ export function FloatingHeroIcons() {
 
       {/* White sparkle below Left Bottom Chat Icon */}
       <div
-        className="absolute top-[82%] left-[6%] sm:left-[7%] lg:left-[8%] xl:left-[10%] z-10 pointer-events-none animate-pulse"
+        className="absolute top-[82%] left-[6%] md:left-[7%] lg:left-[8%] xl:left-[10%] z-10 pointer-events-none animate-pulse"
         style={{ animationDuration: "2.8s", animationDelay: "1s" }}
       >
         <SparkleStar className="size-5 sm:size-6 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
@@ -502,7 +503,7 @@ export function FloatingHeroIcons() {
         id="right-stars"
         side="right"
         topPercent={14}
-        offsetClass="right-2 sm:right-4 lg:left-auto lg:right-5 xl:right-8"
+        offsetClass="right-2 md:right-3 lg:right-5 xl:right-8"
         bgColor="#d8b4fe" // Pastel lavender
         tooltipText="5-Star Vibe"
         initialRotate={3}
@@ -517,7 +518,7 @@ export function FloatingHeroIcons() {
         id="right-clipboard"
         side="right"
         topPercent={30}
-        offsetClass="right-1 sm:right-3 lg:left-auto lg:right-4 xl:right-7"
+        offsetClass="right-1 md:right-2 lg:right-4 xl:right-7"
         bgColor="#fef08a" // Pastel cream yellow
         tooltipText="Rate the Fest"
         initialRotate={-3}
@@ -532,7 +533,7 @@ export function FloatingHeroIcons() {
         id="right-crowd"
         side="right"
         topPercent={46}
-        offsetClass="right-2 sm:right-4 lg:left-auto lg:right-5 xl:right-8"
+        offsetClass="right-2 md:right-3 lg:right-5 xl:right-8"
         bgColor="#86efac" // Pastel mint green
         tooltipText="Anon Crowd"
         initialRotate={2}
@@ -544,7 +545,7 @@ export function FloatingHeroIcons() {
 
       {/* White sparkle to the left of Right Center Crowd Icon */}
       <div
-        className="absolute top-[49%] right-[17%] sm:right-[13%] lg:right-[9.5%] xl:right-[12%] z-10 pointer-events-none animate-pulse"
+        className="absolute top-[49%] right-[10%] md:right-[9%] lg:right-[9.5%] xl:right-[12%] z-10 pointer-events-none animate-pulse"
         style={{ animationDuration: "3.2s", animationDelay: "0.5s" }}
       >
         <SparkleStar className="size-5 sm:size-6 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
@@ -555,7 +556,7 @@ export function FloatingHeroIcons() {
         id="right-heart"
         side="right"
         topPercent={62}
-        offsetClass="right-1 sm:right-3 lg:left-auto lg:right-4 xl:right-7"
+        offsetClass="right-1 md:right-2 lg:right-4 xl:right-7"
         bgColor="#f472b6" // Candy pink
         tooltipText="Real Takes"
         initialRotate={-4}
@@ -570,7 +571,7 @@ export function FloatingHeroIcons() {
         id="right-chat"
         side="right"
         topPercent={77}
-        offsetClass="right-2 sm:right-4 lg:left-auto lg:right-6 xl:right-9"
+        offsetClass="right-2 md:right-3 lg:right-6 xl:right-9"
         bgColor="#7dd3fc" // Pastel sky blue
         tooltipText="No Filter"
         initialRotate={4}
@@ -581,10 +582,9 @@ export function FloatingHeroIcons() {
       </InteractiveFloatingBadge>
 
       {/* White squiggle doodle looping around bottom-right cyan icon */}
-      <div className="absolute top-[75%] right-[11%] sm:right-[9%] lg:right-[7.5%] xl:right-[11%] z-10 pointer-events-none -rotate-12">
+      <div className="absolute top-[75%] right-[9%] md:right-[8%] lg:right-[7.5%] xl:right-[11%] z-10 pointer-events-none -rotate-12">
         <BottomRightSwirlDoodle className="w-12 h-12 sm:w-16 sm:h-16 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]" />
       </div>
     </div>
   );
 }
-

@@ -5,6 +5,7 @@
 @theme inline {
   --font-sans: var(--font-fredoka), sans-serif;
   --font-marker: var(--font-gochi), cursive;
+  --font-hand: var(--font-gochi), cursive;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -15,6 +16,13 @@
   --color-flame: #ff4a1c;
   --color-cream: #f6e7c8;
   --color-void: #0b0810;
+  --color-plum: #34213f;
+  --color-lilac: #d8c8ff;
+  --color-peach: #ffc9ad;
+  --color-butter: #ffe58f;
+  --color-mint: #b8f0cf;
+  --color-sky: #bfe7ff;
+  --color-blush: #ffc6dc;
 
   --animate-marquee: marquee 24s linear infinite;
   --animate-spin-dice: spin-dice 0.6s ease-out;

@@ -62,7 +62,12 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <PersonaRoller />
+          <div className="flex flex-col items-center gap-2">
+            <PersonaRoller />
+            <Link href="/persona" className="font-hand text-lg text-white underline decoration-white/70 underline-offset-4">
+              make mine for real →
+            </Link>
+          </div>
         </div>
 
         <Drip className="absolute bottom-0 rotate-180 text-background" />

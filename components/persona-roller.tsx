@@ -1,11 +1,21 @@
 "use client";
 import { useState } from "react";
 import { Dices } from "lucide-react";
-import { Burst, Doodle } from "./doodles";
+import { Burst, DOODLE_COUNT, Doodle } from "./doodles";
 import { CardBurstRays } from "./floating-icons";
 
-const A = ["Pixel", "Cosmic", "Neon", "Spicy", "Turbo", "Cheeky", "Sleepy", "Glitchy"];
-const N = ["Panda", "Chai", "Ninja", "Samosa", "Gecko", "Wizard", "Noodle", "Falcon"];
+const A = [
+  "Pixel", "Cosmic", "Neon", "Spicy", "Turbo", "Cheeky", "Sleepy",
+  "Glitchy", "Chaotic", "Hyped", "Sassy", "Crispy", "Derpy", "Zen",
+  "Dapper", "Secret", "Dramatic", "Zesty", "Funky", "Breezy"
+];
+
+const N = [
+  "Samosa", "Chai", "Panda", "Dino", "Capybara", "Ghost", "Robo",
+  "Duck", "Potato", "Frog", "Cactus", "Monster", "Ninja", "Wizard",
+  "Gecko", "Noodle", "Falcon", "Taco", "Dumpling", "Waffle"
+];
+
 const pick = <T,>(a: T[]) => a[Math.floor(Math.random() * a.length)];
 
 export function PersonaRoller() {
@@ -13,7 +23,12 @@ export function PersonaRoller() {
   const [spin, setSpin] = useState(0);
 
   const roll = () => {
-    setP({ name: `${pick(A)} ${pick(N)}`, face: Math.floor(Math.random() * 3) });
+    // Pick from all 14 unique eye-catchy persona DPs
+    const nextFace = Math.floor(Math.random() * DOODLE_COUNT);
+    setP({
+      name: `${pick(A)} ${pick(N)}`,
+      face: nextFace,
+    });
     setSpin((s) => s + 1);
   };
 
@@ -29,7 +44,7 @@ export function PersonaRoller() {
         <div className="relative mt-3 flex flex-col items-center rounded-3xl bg-gradient-to-b from-volt to-hot px-4 pb-5 pt-6">
           <div className="relative size-44">
             <Burst className="absolute inset-0 size-full" />
-            <Doodle kind={p.face} className="absolute inset-0 m-auto size-32" />
+            <Doodle kind={p.face} className="absolute inset-0 m-auto size-32 transition-transform duration-200 hover:scale-110" />
           </div>
           <p key={p.name} className="mt-3 text-center font-marker text-3xl text-white outlined">{p.name}</p>
           <p className="text-sm text-white/80">100% anonymous · no real name</p>
