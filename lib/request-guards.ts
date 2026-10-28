@@ -46,10 +46,11 @@ export async function rateLimit(
   action: string,
   limit: number,
   windowSeconds: number,
+  subject?: string,
 ): Promise<boolean> {
   try {
     const ipHash = createHmac("sha256", getPulsepassPepper())
-      .update(getClientIp(req))
+      .update(subject ?? getClientIp(req))
       .digest("hex");
     const { data, error } = await getSupabaseAdmin().rpc("hit_rate_limit", {
       p_key: `${action}:${ipHash}`,

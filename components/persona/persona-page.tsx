@@ -50,7 +50,7 @@ const avatarColors = [
   "bg-butter",
 ];
 
-export function PersonaPage() {
+export function PersonaPage({ nextPath = "/event/demo" }: { nextPath?: string }) {
   const router = useRouter();
   const { persona, loading, error: sessionError, setPersona } = usePersona();
   const [tab, setTab] = useState<Tab>("create");
@@ -227,7 +227,7 @@ export function PersonaPage() {
               <button
                 type="button"
                 disabled={!savedPass}
-                onClick={() => router.push("/event/demo")}
+                onClick={() => router.push(nextPath)}
                 className="sticker press w-full rounded-full bg-mint px-6 py-3 text-lg font-extrabold text-plum disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Let&apos;s go
@@ -243,7 +243,7 @@ export function PersonaPage() {
                 <h1 className="text-3xl font-extrabold">{persona.nickname}</h1>
               </div>
               <Link
-                href="/event/demo"
+                href={nextPath}
                 className="sticker press inline-block rounded-full bg-butter px-6 py-3 font-extrabold text-plum"
               >
                 Continue to event

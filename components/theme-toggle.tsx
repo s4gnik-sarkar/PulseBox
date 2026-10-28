@@ -1,13 +1,15 @@
 "use client";
-import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
 
 export function ThemeToggle() {
-  const { setTheme, resolvedTheme } = useTheme();
+  const { setTheme } = useTheme();
   return (
     <button
       aria-label="Toggle theme"
-      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      onClick={() =>
+        setTheme(document.documentElement.classList.contains("dark") ? "light" : "dark")
+      }
       className="sticker press flex size-11 items-center justify-center rounded-full bg-cream text-void"
     >
       <Sun className="size-5 dark:hidden" />
