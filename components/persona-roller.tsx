@@ -44,7 +44,7 @@ export function PersonaRoller() {
         <div className="relative mt-3 flex flex-col items-center rounded-3xl bg-gradient-to-b from-volt to-hot px-4 pb-5 pt-6">
           <div className="relative size-44">
             <Burst className="absolute inset-0 size-full" />
-            <Doodle kind={p.face} className="absolute inset-0 m-auto size-32 transition-transform duration-200 hover:scale-110" />
+            <Doodle kind={p.face} className="absolute inset-0 m-auto size-32 transition-transform duration-300 ease-out hover:scale-110" />
           </div>
           <p key={p.name} className="mt-3 text-center font-marker text-3xl text-white outlined">{p.name}</p>
           <p className="text-sm text-white/80">100% anonymous · no real name</p>

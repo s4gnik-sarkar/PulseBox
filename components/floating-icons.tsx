@@ -334,7 +334,7 @@ export function InteractiveFloatingBadge({
 
   return (
     <div
-      className={`absolute ${offsetClass} z-20 pointer-events-auto transition-transform duration-200 select-none`}
+      className={`absolute ${offsetClass} z-20 pointer-events-auto transition-transform duration-300 ease-out select-none`}
       style={{
         top: `${topPercent}%`,
       }}
@@ -352,7 +352,7 @@ export function InteractiveFloatingBadge({
       >
         {/* Floating animated wrapper (pauses on hover) */}
         <div
-          className="relative transition-all duration-150 ease-out"
+          className="relative transition-all duration-300 ease-out"
           style={{
             animation: hovered ? "none" : `float-bob ${floatDuration} ease-in-out infinite`,
             animationDelay: floatDelay,
@@ -362,7 +362,7 @@ export function InteractiveFloatingBadge({
         >
           {/* Responsive Badge Circle with Neobrutalist border & shadow */}
           <div
-            className={`flex items-center justify-center rounded-full border-[3px] lg:border-[3.5px] border-[#0b0810] size-14 md:size-16 lg:size-20 xl:size-[84px] p-2 lg:p-2.5 transition-shadow duration-150 ${
+            className={`flex items-center justify-center rounded-full border-[3px] lg:border-[3.5px] border-[#0b0810] size-14 md:size-16 lg:size-20 xl:size-[84px] p-2 lg:p-2.5 transition-shadow duration-300 ease-out ${
               hovered ? "shadow-[7px_7px_0_#0b0810]" : "shadow-[4px_4px_0_#0b0810]"
             }`}
             style={{
@@ -374,7 +374,7 @@ export function InteractiveFloatingBadge({
 
           {/* Interactive Tooltip Pill on Hover */}
           <div
-            className={`absolute top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-200 z-30 ${
+            className={`absolute top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-300 ease-out z-30 ${
               side === "left"
                 ? "left-full ml-3 origin-left"
                 : "right-full mr-3 origin-right"

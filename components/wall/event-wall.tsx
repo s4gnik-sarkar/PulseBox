@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Doodle } from "@/components/doodles";
 import { usePersona } from "@/hooks/use-persona";
 import type { WallItem } from "@/lib/wall-types";
@@ -64,6 +65,8 @@ export function EventWall({
   initialCursor: string | null;
 }) {
   const { persona } = usePersona();
+  const feedbackScrollerRef = useRef<HTMLDivElement>(null);
+  const scrollAnimationRef = useRef<number | null>(null);
   const [sort, setSort] = useState<SortOrder>("newest");
   const [items, setItems] = useState(initialItems);
   const [selectedId, setSelectedId] = useState<string | null>(initialItems[0]?.id ?? null);
@@ -72,6 +75,53 @@ export function EventWall({
   const [error, setError] = useState<string | null>(null);
 
   const selectedItem = items.find((item) => item.id === selectedId) ?? null;
+
+  useEffect(() => () => {
+    if (scrollAnimationRef.current !== null) {
+      cancelAnimationFrame(scrollAnimationRef.current);
+    }
+  }, []);
+
+  function scrollFeedback(direction: -1 | 1) {
+    const scroller = feedbackScrollerRef.current;
+    if (!scroller) {
+      return;
+    }
+
+    if (scrollAnimationRef.current !== null) {
+      cancelAnimationFrame(scrollAnimationRef.current);
+    }
+
+    const start = scroller.scrollLeft;
+    const end = Math.max(
+      0,
+      Math.min(
+        start + direction * scroller.clientWidth * 0.8,
+        scroller.scrollWidth - scroller.clientWidth,
+      ),
+    );
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      scroller.scrollLeft = end;
+      return;
+    }
+
+    const duration = 700;
+    let startedAt: number | null = null;
+    const animateScroll = (timestamp: number) => {
+      startedAt ??= timestamp;
+      const progress = Math.min((timestamp - startedAt) / duration, 1);
+      const easedProgress = 1 - (1 - progress) ** 4;
+      scroller.scrollLeft = start + (end - start) * easedProgress;
+
+      if (progress < 1) {
+        scrollAnimationRef.current = requestAnimationFrame(animateScroll);
+      } else {
+        scrollAnimationRef.current = null;
+      }
+    };
+
+    scrollAnimationRef.current = requestAnimationFrame(animateScroll);
+  }
 
   function addItem(item: WallItem) {
     setItems((current) => {
@@ -183,8 +233,9 @@ export function EventWall({
             <div className="space-y-5">
               <div className="relative">
                 <div
-                  className="overflow-x-auto scroll-smooth pb-3 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-                  style={{ scrollBehavior: "smooth" }}
+                  id="feedback-carousel"
+                  ref={feedbackScrollerRef}
+                  className="overflow-x-auto pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 >
                   <div className="flex min-w-max gap-4 px-1 py-2">
                     {items.map((item) => (
@@ -203,6 +254,24 @@ export function EventWall({
                 </div>
                 <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-background to-transparent" />
                 <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-background to-transparent" />
+                <button
+                  type="button"
+                  aria-label="Scroll feedback left"
+                  aria-controls="feedback-carousel"
+                  onClick={() => scrollFeedback(-1)}
+                  className="sticker press absolute left-2 top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-cream text-plum sm:left-3"
+                >
+                  <ChevronLeft aria-hidden="true" className="size-6" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Scroll feedback right"
+                  aria-controls="feedback-carousel"
+                  onClick={() => scrollFeedback(1)}
+                  className="sticker press absolute right-2 top-1/2 z-20 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-cream text-plum sm:right-3"
+                >
+                  <ChevronRight aria-hidden="true" className="size-6" />
+                </button>
               </div>
 
               {selectedItem && (
@@ -221,6 +290,7 @@ export function EventWall({
                     </button>
                   </div>
                   <FeedbackCard
+                    key={selectedItem.id}
                     item={selectedItem}
                     persona={persona}
                     selected

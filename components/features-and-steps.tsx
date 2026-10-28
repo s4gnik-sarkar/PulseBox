@@ -324,7 +324,7 @@ function PillRays({ side }: { side: "left" | "right" }) {
 
 export function FeaturesAndSteps() {
   return (
-    <section className="relative overflow-hidden border-t-[3px] border-[#0b0810] dark:border-[#2a1f3d] bg-[#fbf8f1] dark:bg-[#0c0814] text-[#0b0810] dark:text-white py-20 sm:py-24 transition-colors duration-200">
+    <section className="relative overflow-hidden border-t-[3px] border-[#0b0810] dark:border-[#2a1f3d] bg-[#fbf8f1] dark:bg-[#0c0814] text-[#0b0810] dark:text-white py-20 sm:py-24 transition-colors duration-300 ease-out">
       {/* ================= SUBTLE GRID BACKGROUND (Theme-based) ================= */}
       <div
         className="absolute inset-0 pointer-events-none opacity-100"
@@ -443,7 +443,7 @@ export function FeaturesAndSteps() {
                 <span className="block h-3.5 w-0.8 rotate-[-20deg] bg-current rounded-full" />
               </div>
 
-              <div className="rounded-3xl border-[3px] border-[#0b0810] bg-[#ff4a1c] p-6 pt-5 text-white shadow-[6px_6px_0_#0b0810] dark:shadow-[6px_6px_0_#f6e7c8] transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#0b0810] dark:hover:shadow-[9px_9px_0_#f6e7c8]">
+              <div className="rounded-3xl border-[3px] border-[#0b0810] bg-[#ff4a1c] p-6 pt-5 text-white shadow-[6px_6px_0_#0b0810] dark:shadow-[6px_6px_0_#f6e7c8] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#0b0810] dark:hover:shadow-[9px_9px_0_#f6e7c8]">
                 <div className="flex justify-center">
                   <ChaiCupGraphic className="size-20" />
                 </div>
@@ -458,7 +458,7 @@ export function FeaturesAndSteps() {
 
             {/* Card 2: KING OF THE WALL (Volt/Purple) */}
             <div className="group">
-              <div className="rounded-3xl border-[3px] border-[#0b0810] bg-[#6c47ff] p-6 pt-5 text-white shadow-[6px_6px_0_#0b0810] dark:shadow-[6px_6px_0_#f6e7c8] transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#0b0810] dark:hover:shadow-[9px_9px_0_#f6e7c8]">
+              <div className="rounded-3xl border-[3px] border-[#0b0810] bg-[#6c47ff] p-6 pt-5 text-white shadow-[6px_6px_0_#0b0810] dark:shadow-[6px_6px_0_#f6e7c8] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#0b0810] dark:hover:shadow-[9px_9px_0_#f6e7c8]">
                 <div className="flex justify-center">
                   <KingGraphic className="size-20" />
                 </div>
@@ -473,7 +473,7 @@ export function FeaturesAndSteps() {
 
             {/* Card 3: LEAVE IT TO FATE (Mint Green) */}
             <div className="relative group">
-              <div className="rounded-3xl border-[3px] border-[#0b0810] bg-[#6ee7b7] p-6 pt-5 text-[#0b0810] shadow-[6px_6px_0_#0b0810] dark:shadow-[6px_6px_0_#f6e7c8] transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#0b0810] dark:hover:shadow-[9px_9px_0_#f6e7c8]">
+              <div className="rounded-3xl border-[3px] border-[#0b0810] bg-[#6ee7b7] p-6 pt-5 text-[#0b0810] shadow-[6px_6px_0_#0b0810] dark:shadow-[6px_6px_0_#f6e7c8] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#0b0810] dark:hover:shadow-[9px_9px_0_#f6e7c8]">
                 <div className="flex justify-center">
                   <MonsterGraphic className="size-20" />
                 </div>
@@ -548,7 +548,7 @@ export function FeaturesAndSteps() {
           {/* 3 STEP CARDS WITH COLORED SHADOWS */}
           <div className="mt-12 grid gap-6 md:grid-cols-3 text-left">
             {/* Step 01: Roll a persona (Orange shadow) */}
-            <div className="group rounded-3xl border-[3px] border-[#0b0810] dark:border-[#382b52] bg-white dark:bg-[#181224] p-6 shadow-[6px_6px_0_#ff4a1c] transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#ff4a1c]">
+            <div className="group rounded-3xl border-[3px] border-[#0b0810] dark:border-[#382b52] bg-white dark:bg-[#181224] p-6 shadow-[6px_6px_0_#ff4a1c] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#ff4a1c]">
               <div className="flex items-start justify-between">
                 <div>
                   <span className="font-marker text-5xl sm:text-6xl font-extrabold text-[#ff8a65] block leading-none">
@@ -568,7 +568,7 @@ export function FeaturesAndSteps() {
             </div>
 
             {/* Step 02: Drop your take (Purple shadow) */}
-            <div className="group rounded-3xl border-[3px] border-[#0b0810] dark:border-[#382b52] bg-white dark:bg-[#181224] p-6 shadow-[6px_6px_0_#6c47ff] transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#6c47ff]">
+            <div className="group rounded-3xl border-[3px] border-[#0b0810] dark:border-[#382b52] bg-white dark:bg-[#181224] p-6 shadow-[6px_6px_0_#6c47ff] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#6c47ff]">
               <div className="flex items-start justify-between">
                 <div>
                   <span className="font-marker text-5xl sm:text-6xl font-extrabold text-[#a78bfa] block leading-none">
@@ -588,7 +588,7 @@ export function FeaturesAndSteps() {
             </div>
 
             {/* Step 03: Join the chaos (Mint Green shadow) */}
-            <div className="group rounded-3xl border-[3px] border-[#0b0810] dark:border-[#382b52] bg-white dark:bg-[#181224] p-6 shadow-[6px_6px_0_#10b981] transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#10b981]">
+            <div className="group rounded-3xl border-[3px] border-[#0b0810] dark:border-[#382b52] bg-white dark:bg-[#181224] p-6 shadow-[6px_6px_0_#10b981] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[9px_9px_0_#10b981]">
               <div className="flex items-start justify-between">
                 <div>
                   <span className="font-marker text-5xl sm:text-6xl font-extrabold text-[#34d399] block leading-none">
