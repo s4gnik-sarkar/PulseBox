@@ -8,6 +8,7 @@ import type { Persona } from "@/hooks/use-persona";
 import type { WallReply } from "./wall-types";
 import { RelativeTime } from "./relative-time";
 import { ReportMenu } from "./report-menu";
+import { DeleteContentButton } from "./delete-content-button";
 
 export function ReplyThread({
   feedbackId,
@@ -143,6 +144,17 @@ export function ReplyThread({
                 <div className="flex flex-wrap items-center gap-x-2">
                   <span className="font-bold">{reply.persona.nickname}</span>
                   <span className="text-xs text-muted-foreground"><RelativeTime date={reply.createdAt} /></span>
+                  {persona?.id === reply.persona.id && (
+                    <DeleteContentButton
+                      target="reply"
+                      id={reply.id}
+                      feedbackId={feedbackId}
+                      onDeleted={() => {
+                        setReplies((current) => current.filter((entry) => entry.id !== reply.id));
+                        updateCount(Math.max(0, count - 1));
+                      }}
+                    />
+                  )}
                   <ReportMenu target="reply" id={reply.id} />
                 </div>
                 <p className="whitespace-pre-wrap break-words text-sm">{reply.message}</p>

@@ -9,12 +9,14 @@ import { RelativeTime } from "./relative-time";
 import { ReactionBar } from "./reaction-bar";
 import { ReplyThread } from "./reply-thread";
 import { ReportMenu } from "./report-menu";
+import { DeleteContentButton } from "./delete-content-button";
 
 export function FeedbackCard({
   item,
   persona,
   onReactionChange,
   onReplyCountChange,
+  onDelete,
   onOpen,
   compact = false,
   selected = false,
@@ -24,6 +26,7 @@ export function FeedbackCard({
   persona: Persona | null;
   onReactionChange: (id: string, reactions: WallItem["reactions"], mine: string[]) => void;
   onReplyCountChange: (id: string, count: number) => void;
+  onDelete: (id: string) => void;
   onOpen?: (id: string) => void;
   compact?: boolean;
   selected?: boolean;
@@ -98,7 +101,16 @@ export function FeedbackCard({
             )}
           </div>
         </div>
-        <ReportMenu target="feedback" id={item.id} />
+        <div className="flex items-center gap-1">
+          {isMine && (
+            <DeleteContentButton
+              target="feedback"
+              id={item.id}
+              onDeleted={() => onDelete(item.id)}
+            />
+          )}
+          <ReportMenu target="feedback" id={item.id} />
+        </div>
       </div>
 
       <p className="my-4 whitespace-pre-wrap break-words text-base leading-relaxed">{item.message}</p>

@@ -183,6 +183,11 @@ export function EventWall({
     );
   }
 
+  function deleteItem(id: string) {
+    setItems((current) => current.filter((item) => item.id !== id));
+    setSelectedId((current) => current === id ? null : current);
+  }
+
   return (
     <main className="min-h-screen bg-background px-3 py-6 text-foreground sm:px-6 sm:py-10 lg:px-8">
       <div className="mx-auto w-full max-w-5xl space-y-5">
@@ -248,6 +253,7 @@ export function EventWall({
                         onOpen={(id) => setSelectedId(id)}
                         onReactionChange={updateReactions}
                         onReplyCountChange={updateReplyCount}
+                        onDelete={deleteItem}
                       />
                     ))}
                   </div>
@@ -297,6 +303,7 @@ export function EventWall({
                     defaultOpenThread
                     onReactionChange={updateReactions}
                     onReplyCountChange={updateReplyCount}
+                    onDelete={deleteItem}
                   />
                 </section>
               )}
