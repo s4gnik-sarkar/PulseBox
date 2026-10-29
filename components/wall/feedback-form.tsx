@@ -167,8 +167,20 @@ export function FeedbackForm({
                   aria-label={label}
                   aria-pressed={mood === key}
                   onClick={() => setMood(key)}
-                  className={`sticker press flex min-h-16 flex-col items-center justify-center rounded-xl bg-sky px-2 py-2 text-plum ${mood === key ? "ring-4 ring-plum ring-offset-2 dark:ring-lilac" : ""}`}
+                  className={`sticker press relative flex min-h-16 flex-col items-center justify-center rounded-xl px-2 py-2 text-plum ${
+                    mood === key
+                      ? "bg-peach ring-4 ring-plum ring-offset-2 ring-offset-background dark:ring-lilac"
+                      : "bg-sky"
+                  }`}
                 >
+                  {mood === key && (
+                    <span
+                      className="absolute right-1 top-1 flex size-4 items-center justify-center rounded-full bg-plum text-[10px] font-bold text-cream"
+                      aria-hidden="true"
+                    >
+                      ✓
+                    </span>
+                  )}
                   <span className="text-2xl" aria-hidden>{emoji}</span>
                   <span className="text-xs font-semibold">{label}</span>
                 </button>
