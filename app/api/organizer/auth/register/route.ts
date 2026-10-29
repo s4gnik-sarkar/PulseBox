@@ -28,8 +28,8 @@ export async function POST(req: NextRequest) {
       typeof body.password === "string"
     ? body.password
     : "";
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || password.length < 10 || password.length > 128) {
-    return json({ message: "Use a valid email and a password of 10–128 characters." }, 400);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || password.length < 6 || password.length > 128) {
+    return json({ message: "Use a valid email and a password of 6–128 characters." }, 400);
   }
 
   try {

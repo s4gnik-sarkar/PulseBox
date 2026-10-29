@@ -193,13 +193,13 @@ export function OrganizerPortal() {
                 <input
                   type="password"
                   autoComplete={mode === "register" ? "new-password" : "current-password"}
-                  minLength={10}
+                  minLength={mode === "register" ? 6 : undefined}
                   required
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   className="w-full rounded-xl border-2 border-plum bg-background px-4 py-3 font-normal text-foreground"
                 />
-                {mode === "register" && <span className="block text-xs font-normal text-muted-foreground">At least 10 characters.</span>}
+                {mode === "register" && <span className="block text-xs font-normal text-muted-foreground">At least 6 characters.</span>}
               </label>
               <button
                 type="submit"
