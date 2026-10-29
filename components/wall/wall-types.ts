@@ -10,5 +10,6 @@ export type WallEventView = {
   eventDate: string | null;
   feedbackDeadline: string | null;
   isOpen: boolean;
+  isSuspended: boolean;
   isClosed: boolean;
 };

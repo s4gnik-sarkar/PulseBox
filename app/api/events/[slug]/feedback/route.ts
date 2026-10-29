@@ -111,7 +111,22 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
       return json({ message: "Feedback is closed for this event." }, 403);
     }
 
-    const { data: inserted, error } = await getSupabaseAdmin()
+    const admin = getSupabaseAdmin();
+    if (event.organizer_id) {
+      const { data: organizer, error: organizerError } = await admin
+        .from("organizer_applications")
+        .select("status")
+        .eq("user_id", event.organizer_id)
+        .maybeSingle();
+      if (organizerError) {
+        return json({ message: "We could not verify this event's status." }, 500);
+      }
+      if (organizer?.status !== "approved") {
+        return json({ message: "Feedback is closed for this event." }, 403);
+      }
+    }
+
+    const { data: inserted, error } = await admin
       .from("feedback")
       .insert({
         event_id: event.id,

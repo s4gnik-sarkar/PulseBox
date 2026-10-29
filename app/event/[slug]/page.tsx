@@ -40,6 +40,7 @@ export default async function Page({ params }: PageProps) {
     eventDate: event.event_date,
     feedbackDeadline: event.feedback_deadline,
     isOpen: event.is_open,
+    isSuspended: event.is_suspended,
     isClosed: isEventFeedbackClosed(event),
   };
 

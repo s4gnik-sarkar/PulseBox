@@ -22,12 +22,21 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Supabase database setup
 
-For a new database, run `supabase/schema.sql`, then `supabase/phase4.sql` and
-`supabase/phase5.sql` in the Supabase SQL Editor. For an existing database
+For a new database, run `supabase/schema.sql`, then `supabase/phase4.sql`,
+`supabase/phase5.sql`, and `supabase/phase6.sql` in the Supabase SQL Editor. For an existing database
 created from the original schema, run `supabase/phase5.sql` to add the feedback
 wall's moderation columns, reactions, and report tables. Re-run `phase5.sql` on
 existing databases to enforce one reaction per persona per feedback thread; if
 older data has multiple reactions from the same persona, the latest is kept.
+Run `supabase/phase6.sql` on existing databases to enable organizer
+applications, private verification uploads, event suspension, and organizer
+approval. Enable Supabase Auth email/password and configure its site URL for
+email confirmation. Set `ORGANIZER_ADMIN_EMAILS` in `.env.local` and your
+deployment environment to a comma-separated list of administrator email
+addresses. Organizers register with Supabase Auth
+email/password and must verify their email before submitting an application.
+Verification proof is limited to PDF/JPG files of at most 1 MB; only allowlisted
+administrators can request a short-lived proof link.
 
 ## Learn More
 

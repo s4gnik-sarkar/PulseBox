@@ -5,19 +5,22 @@ import type { WallItem } from "@/lib/wall-types";
 
 export type WallEvent = {
   id: string;
+  organizer_id: string | null;
   title: string;
   description: string | null;
   slug: string;
   is_open: boolean;
+  is_suspended: boolean;
   event_date: string | null;
   feedback_deadline: string | null;
 };
 
 export function isEventFeedbackClosed(
-  event: Pick<WallEvent, "is_open" | "feedback_deadline">,
+  event: Pick<WallEvent, "is_open" | "is_suspended" | "feedback_deadline">,
 ): boolean {
   return (
     !event.is_open ||
+    event.is_suspended ||
     (event.feedback_deadline !== null &&
       new Date(event.feedback_deadline).getTime() < Date.now())
   );
@@ -51,7 +54,7 @@ export async function getEventBySlug(slug: string): Promise<WallEvent | null> {
   try {
     const { data, error } = await getSupabaseAdmin()
       .from("events")
-      .select("id,title,description,slug,is_open,event_date,feedback_deadline")
+      .select("id,organizer_id,title,description,slug,is_open,is_suspended,event_date,feedback_deadline")
       .eq("slug", slug)
       .maybeSingle();
 
