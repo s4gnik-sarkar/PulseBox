@@ -25,7 +25,9 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 For a new database, run `supabase/schema.sql`, then `supabase/phase4.sql` and
 `supabase/phase5.sql` in the Supabase SQL Editor. For an existing database
 created from the original schema, run `supabase/phase5.sql` to add the feedback
-wall's moderation columns, reactions, and report tables.
+wall's moderation columns, reactions, and report tables. Re-run `phase5.sql` on
+existing databases to enforce one reaction per persona per feedback thread; if
+older data has multiple reactions from the same persona, the latest is kept.
 
 ## Learn More
 

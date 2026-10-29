@@ -67,30 +67,26 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
 
     const { data: existing, error: existingError } = await admin
       .from("reactions")
-      .select("feedback_id")
+      .select("emoji")
       .eq("feedback_id", id)
       .eq("persona_id", persona.id)
-      .eq("emoji", emoji)
+      .limit(1)
       .maybeSingle();
 
     if (existingError) {
       return json({ message: "We could not update your reaction." }, 500);
     }
 
-    if (existing) {
-      const { error } = await admin
-        .from("reactions")
-        .delete()
-        .eq("feedback_id", id)
-        .eq("persona_id", persona.id)
-        .eq("emoji", emoji);
-      if (error) {
-        return json({ message: "We could not update your reaction." }, 500);
-      }
-    } else {
-      const { error } = await admin
-        .from("reactions")
-        .insert({ feedback_id: id, persona_id: persona.id, emoji });
+    if (existing?.emoji !== emoji) {
+      const { error } = existing
+        ? await admin
+            .from("reactions")
+            .update({ emoji })
+            .eq("feedback_id", id)
+            .eq("persona_id", persona.id)
+        : await admin
+            .from("reactions")
+            .insert({ feedback_id: id, persona_id: persona.id, emoji });
       if (error) {
         return json({ message: "We could not update your reaction." }, 500);
       }

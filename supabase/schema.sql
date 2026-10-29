@@ -62,10 +62,11 @@ create table public.reactions (
   feedback_id uuid not null references public.feedback(id) on delete cascade,
   persona_id uuid not null references public.personas(id) on delete cascade,
   emoji text not null check (emoji in ('love', 'fire', 'laugh', 'clap', 'chai')),
-  created_at timestamptz not null default now(),
-  unique (feedback_id, persona_id, emoji)
+  created_at timestamptz not null default now()
 );
 create index reactions_feedback_idx on public.reactions (feedback_id);
+create unique index reactions_feedback_persona_idx
+  on public.reactions (feedback_id, persona_id);
 
 -- REPORTS
 create table public.reports (

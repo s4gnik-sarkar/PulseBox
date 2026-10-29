@@ -34,20 +34,19 @@ export function ReactionBar({
       setMessage("Make a persona to react.");
       return;
     }
-    if (busy) {
+    if (busy || mine.includes(key)) {
       return;
     }
 
     const previousCounts = counts;
     const previousMine = mine;
-    const selected = mine.includes(key);
-    const optimisticCounts = {
-      ...counts,
-      [key]: Math.max(0, counts[key] + (selected ? -1 : 1)),
-    };
-    const optimisticMine = selected
-      ? mine.filter((reaction) => reaction !== key)
-      : [...mine, key];
+    const currentReaction = REACTIONS.find(({ key: reaction }) => mine.includes(reaction))?.key;
+    const optimisticCounts = { ...counts };
+    if (currentReaction) {
+      optimisticCounts[currentReaction] = Math.max(0, optimisticCounts[currentReaction] - 1);
+    }
+    optimisticCounts[key] += 1;
+    const optimisticMine = [key];
     setCounts(optimisticCounts);
     setMine(optimisticMine);
     setBusy(key);
@@ -94,7 +93,7 @@ export function ReactionBar({
             type="button"
             aria-label={`${key} reaction, ${counts[key]}`}
             aria-pressed={mine.includes(key)}
-            disabled={busy !== null}
+            disabled={busy !== null || mine.includes(key)}
             onClick={() => void toggle(key)}
             className={`rounded-full border-2 px-3 py-1.5 text-sm font-bold transition ${mine.includes(key) ? "border-plum bg-lilac text-plum dark:border-lilac" : "border-plum/30 bg-background text-foreground dark:border-lilac/40"} disabled:opacity-70`}
           >

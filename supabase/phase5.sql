@@ -9,11 +9,22 @@ create table if not exists public.reactions (
   feedback_id uuid not null references public.feedback(id) on delete cascade,
   persona_id uuid not null references public.personas(id) on delete cascade,
   emoji text not null check (emoji in ('love', 'fire', 'laugh', 'clap', 'chai')),
-  created_at timestamptz not null default now(),
-  unique (feedback_id, persona_id, emoji)
+  created_at timestamptz not null default now()
 );
 create index if not exists reactions_feedback_idx
   on public.reactions (feedback_id);
+
+-- Keep the latest reaction per persona and feedback before enforcing the one-reaction limit.
+delete from public.reactions older
+using public.reactions newer
+where older.feedback_id = newer.feedback_id
+  and older.persona_id = newer.persona_id
+  and (older.created_at, older.ctid) < (newer.created_at, newer.ctid);
+
+alter table public.reactions
+  drop constraint if exists reactions_feedback_id_persona_id_emoji_key;
+create unique index if not exists reactions_feedback_persona_idx
+  on public.reactions (feedback_id, persona_id);
 
 create table if not exists public.reports (
   id uuid primary key default gen_random_uuid(),
