@@ -66,10 +66,12 @@ export function EventWall({
 }) {
   const { persona } = usePersona();
   const feedbackScrollerRef = useRef<HTMLDivElement>(null);
+  const selectedPanelRef = useRef<HTMLElement>(null);
   const scrollAnimationRef = useRef<number | null>(null);
   const [sort, setSort] = useState<SortOrder>("newest");
   const [items, setItems] = useState(initialItems);
   const [selectedId, setSelectedId] = useState<string | null>(initialItems[0]?.id ?? null);
+  const [selectionChange, setSelectionChange] = useState(0);
   const [nextCursor, setNextCursor] = useState(initialCursor);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -81,6 +83,22 @@ export function EventWall({
       cancelAnimationFrame(scrollAnimationRef.current);
     }
   }, []);
+
+  useEffect(() => {
+    if (selectionChange === 0) {
+      return;
+    }
+
+    selectedPanelRef.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "center",
+    });
+  }, [selectionChange]);
+
+  function openFeedback(id: string) {
+    setSelectedId(id);
+    setSelectionChange((current) => current + 1);
+  }
 
   function scrollFeedback(direction: -1 | 1) {
     const scroller = feedbackScrollerRef.current;
@@ -250,7 +268,7 @@ export function EventWall({
                         persona={persona}
                         compact
                         selected={selectedId === item.id}
-                        onOpen={(id) => setSelectedId(id)}
+                        onOpen={openFeedback}
                         onReactionChange={updateReactions}
                         onReplyCountChange={updateReplyCount}
                         onDelete={deleteItem}
@@ -281,7 +299,7 @@ export function EventWall({
               </div>
 
               {selectedItem && (
-                <section className="sticker rounded-[2rem] bg-card p-4 sm:p-6">
+                <section ref={selectedPanelRef} className="sticker rounded-[2rem] bg-card p-4 sm:p-6">
                   <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
                     <div>
                       <p className="font-hand text-lg text-plum dark:text-lilac">Selected feedback</p>

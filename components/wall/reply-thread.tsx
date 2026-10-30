@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { Doodle } from "@/components/doodles";
 import { REPLY_MAX } from "@/lib/feedback-config";
 import type { Persona } from "@/hooks/use-persona";
@@ -26,32 +26,23 @@ export function ReplyThread({
   const [open, setOpen] = useState(defaultOpen);
   const [replies, setReplies] = useState<WallReply[]>([]);
   const [loaded, setLoaded] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(defaultOpen);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [count, setCount] = useState(initialCount);
-
-  useEffect(() => {
-    setOpen(defaultOpen);
-    if (defaultOpen && !loaded) {
-      void showReplies();
-    }
-  }, [defaultOpen]);
+  const loadStateRef = useRef<"idle" | "loading" | "loaded">("idle");
 
   function updateCount(nextCount: number) {
     setCount(nextCount);
     onCountChange(nextCount);
   }
 
-  async function showReplies() {
-    const nextOpen = !open;
-    setOpen(nextOpen);
-    if (!nextOpen || loaded) {
+  const loadReplies = useCallback(async () => {
+    if (loadStateRef.current !== "idle") {
       return;
     }
-    setLoading(true);
-    setError(null);
+    loadStateRef.current = "loading";
     try {
       const response = await fetch(`/api/feedback/${feedbackId}/replies`, {
         cache: "no-store",
@@ -62,6 +53,7 @@ export function ReplyThread({
       }
       setReplies(result.replies);
       setLoaded(true);
+      loadStateRef.current = "loaded";
     } catch (requestError) {
       setError(
         requestError instanceof TypeError
@@ -71,7 +63,26 @@ export function ReplyThread({
             : "Could not load replies.",
       );
     } finally {
+      if (loadStateRef.current === "loading") {
+        loadStateRef.current = "idle";
+      }
       setLoading(false);
+    }
+  }, [feedbackId]);
+
+  useEffect(() => {
+    if (defaultOpen) {
+      void loadReplies();
+    }
+  }, [defaultOpen, loadReplies]);
+
+  function showReplies() {
+    const nextOpen = !open;
+    setOpen(nextOpen);
+    if (nextOpen && !loaded) {
+      setLoading(true);
+      setError(null);
+      void loadReplies();
     }
   }
 
