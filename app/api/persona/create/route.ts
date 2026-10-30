@@ -6,8 +6,14 @@ import {
   hashPulsePass,
   normalizePulsePass,
 } from "@/lib/pulsepass";
+import {
+  claimPersonaDevice,
+  getPersonaDeviceClaim,
+  getPersonaDeviceToken,
+  setPersonaDeviceToken,
+} from "@/lib/persona-device";
 import { assertSameOrigin, json, rateLimit } from "@/lib/request-guards";
-import { setSession } from "@/lib/session";
+import { getSessionPersonaId, setSession } from "@/lib/session";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 
 export const dynamic = "force-dynamic";
@@ -47,6 +53,43 @@ export async function POST(req: NextRequest) {
   let pulsePass: string | null = null;
 
   try {
+    const deviceToken = await getPersonaDeviceToken();
+    const deviceClaim = await getPersonaDeviceClaim(deviceToken);
+    if (deviceClaim) {
+      return json(
+        {
+          message:
+            "This browser already has a persona. Recover it with your PulsePass, or use a different browser to create another.",
+        },
+        409,
+      );
+    }
+
+    const currentPersonaId = await getSessionPersonaId();
+    if (currentPersonaId) {
+      const { data: currentPersona, error: currentPersonaError } = await getSupabaseAdmin()
+        .from("personas")
+        .select("id")
+        .eq("id", currentPersonaId)
+        .maybeSingle();
+      if (currentPersonaError) {
+        return json({ message: "We could not check your current persona. Please try again." }, 500);
+      }
+      if (currentPersona) {
+        const claimed = await claimPersonaDevice(deviceToken, currentPersona.id);
+        if (claimed) {
+          await setPersonaDeviceToken(deviceToken);
+        }
+        return json(
+          {
+            message:
+              "This browser already has a persona. Recover it with your PulsePass, or use a different browser to create another.",
+          },
+          409,
+        );
+      }
+    }
+
     const { data: persona, error: personaError } = await getSupabaseAdmin()
       .from("personas")
       .insert({ nickname: body.nickname, avatar_id: body.avatarId })
@@ -88,6 +131,26 @@ export async function POST(req: NextRequest) {
       return json({ message: "We could not create your persona. Please try again." }, 500);
     }
 
+    const claimed = await claimPersonaDevice(deviceToken, persona.id);
+    if (!claimed) {
+      const { error: deleteError } = await getSupabaseAdmin()
+        .from("personas")
+        .delete()
+        .eq("id", persona.id);
+      if (deleteError) {
+        throw new Error("Could not clean up an unclaimed persona.");
+      }
+      createdPersonaId = null;
+      return json(
+        {
+          message:
+            "This browser already has a persona. Recover it with your PulsePass, or use a different browser to create another.",
+        },
+        409,
+      );
+    }
+
+    await setPersonaDeviceToken(deviceToken);
     await setSession(persona.id);
     return json(
       {

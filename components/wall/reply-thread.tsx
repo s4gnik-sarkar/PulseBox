@@ -72,7 +72,7 @@ export function ReplyThread({
 
   useEffect(() => {
     if (defaultOpen) {
-      void loadReplies();
+      void Promise.resolve().then(loadReplies);
     }
   }, [defaultOpen, loadReplies]);
 

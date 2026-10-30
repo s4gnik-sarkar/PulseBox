@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { bindPersonaDevice } from "@/lib/persona-device";
 import { normalizePulsePass, hashPulsePass } from "@/lib/pulsepass";
 import { assertSameOrigin, json, rateLimit } from "@/lib/request-guards";
 import { setSession } from "@/lib/session";
@@ -63,6 +64,7 @@ export async function POST(req: NextRequest) {
       return json({ message: NO_MATCH }, 404);
     }
 
+    await bindPersonaDevice(persona.id);
     await setSession(persona.id);
     return json({
       persona: {

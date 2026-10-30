@@ -23,7 +23,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 ## Supabase database setup
 
 For a new database, run `supabase/schema.sql`, then `supabase/phase4.sql`,
-`supabase/phase5.sql`, and `supabase/phase6.sql` in the Supabase SQL Editor. For an existing database
+`supabase/phase5.sql`, `supabase/phase6.sql`, and `supabase/phase7.sql` in the Supabase SQL Editor. For an existing database
 created from the original schema, run `supabase/phase5.sql` to add the feedback
 wall's moderation columns, reactions, and report tables. Re-run `phase5.sql` on
 existing databases to enforce one reaction per persona per feedback thread; if
@@ -37,6 +37,9 @@ addresses. Organizers register with Supabase Auth
 email/password and must verify their email before submitting an application.
 Verification proof is limited to PDF/JPG files of at most 1 MB; only allowlisted
 administrators can request a short-lived proof link.
+Run `supabase/phase7.sql` on existing databases to limit persona creation to
+one per browser cookie. This is a best-effort browser limit, not a way to
+identify a physical device: clearing cookies or changing browsers can bypass it.
 
 ## Learn More
 

@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
+import { bindPersonaDevice } from "@/lib/persona-device";
 import { assertSameOrigin, json } from "@/lib/request-guards";
-import { clearSession } from "@/lib/session";
+import { clearSession, getSessionPersonaId } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,10 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const personaId = await getSessionPersonaId();
+    if (personaId) {
+      await bindPersonaDevice(personaId);
+    }
     await clearSession();
     return json({ ok: true });
   } catch {

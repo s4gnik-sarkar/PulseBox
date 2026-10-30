@@ -41,6 +41,13 @@ create table public.personas (
   created_at timestamptz not null default now()
 );
 
+-- A browser can claim only one persona for creation; recovery can bind the same persona on other browsers.
+create table public.persona_device_claims (
+  device_token_hash text primary key,
+  persona_id uuid not null references public.personas(id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
 -- PERSONA CREDENTIALS (private: only a hash of the PulsePass is ever stored)
 create table public.persona_credentials (
   persona_id uuid primary key references public.personas(id) on delete cascade,
@@ -163,6 +170,7 @@ grant execute on function public.get_organizer_event_analytics(uuid, uuid)
 alter table public.events enable row level security;
 alter table public.organizer_applications enable row level security;
 alter table public.personas enable row level security;
+alter table public.persona_device_claims enable row level security;
 alter table public.persona_credentials enable row level security;
 alter table public.feedback enable row level security;
 alter table public.replies enable row level security;
@@ -181,6 +189,7 @@ create policy "public read replies" on public.replies
 
 -- persona_credentials: deliberately NO policies = no browser access at all
 revoke all on public.persona_credentials from anon, authenticated;
+revoke all on public.persona_device_claims from public, anon, authenticated;
 revoke all on public.organizer_applications from public, anon, authenticated;
 revoke all on public.reactions, public.reports from public, anon, authenticated;
 
